@@ -1,75 +1,9 @@
-# Interview Experience PlatformThis is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fried Rice
+
+A web application for students to share and discover interview experiences, helping future applicants prepare for their interviews.
 
 
-
-A web application for students to share and discover interview experiences, helping future applicants prepare for their interviews.## Getting Started
-
-
-
-## FeaturesFirst, run the development server:
-
-
-
-### Public Features```bash
-
-- **Search & Browse**: Search interview experiences by keyword, company, position, or tipsnpm run dev
-
-- **Filter by Company**: Filter experiences by specific companies# or
-
-- **Keyword Highlighting**: Matched search terms are highlighted in resultsyarn dev
-
-- **Responsive Design**: Mobile-friendly interface built with shadcn/ui# or
-
-- **No Login Required**: Anyone can view published experiencespnpm dev
-
-# or
-
-### Submission Featuresbun dev
-
-- **Easy Form**: User-friendly form with validation```
-
-- **Required Information**:
-
-  - Student name and LinkedIn profileOpen [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-  - Company and position details
-
-  - Timeline (application, interview, result dates)You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-  - Interview breakdown (phone screens, technical, behavioral, etc.)
-
-  - Interview questionsThis project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-  - Advice and tips for future applicants
-
-- **Consent Requirement**: Clear consent prompt before submission## Learn More
-
-- **Moderation Queue**: All submissions go to pending status for review
-
-To learn more about Next.js, take a look at the following resources:
-
-### Admin Features
-
-- **Dashboard**: Overview of pending, approved, and rejected submissions- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-
-- **Review & Approve**: Approve or reject pending submissions- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-- **Edit Submissions**: Modify any field in submitted entries
-
-- **Delete Entries**: Remove submissions if neededYou can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-- **Export to CSV**: Download all approved entries
-
-- **Simple Authentication**: Password-protected admin access## Deploy on Vercel
-
-
-
-## Tech StackThe easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-
-
-- **Framework**: Next.js 16 (App Router)Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
+- **Framework**: Next.js 16 
 - **Database**: Supabase (PostgreSQL)
 - **UI Components**: shadcn/ui
 - **Styling**: Tailwind CSS
@@ -242,23 +176,6 @@ The search is currently case-insensitive and searches across:
 - Company name
 
 To modify, edit the `filterExperiences` function in `app/page.tsx`.
-
-## Troubleshooting
-
-### "Failed to fetch experiences"
-- Check that Supabase credentials are correct in `.env.local`
-- Verify the database table was created successfully
-- Check browser console for specific errors
-
-### "Unauthorized" in admin panel
-- Verify `ADMIN_PASSWORD` in `.env.local` matches what you're entering
-- Clear browser localStorage and try again
-- Check that environment variables are loaded (restart dev server)
-
-### Submissions not appearing
-- Submissions start in "pending" status
-- Only "approved" submissions appear on the public page
-- Login to admin panel to approve them
 
 ## License
 
