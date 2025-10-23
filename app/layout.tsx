@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Interview Experiences - Student Interview Insights",
+  title: "Fried Rice - Rice Student Interview Insights",
   description:
     "Share and discover student interview experiences to help prepare for your next interview",
 };

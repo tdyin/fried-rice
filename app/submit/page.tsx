@@ -134,7 +134,8 @@ export default function SubmitExperience() {
             Share Your Interview Experience
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Help future students by sharing your interview journey. All submissions are reviewed before being published.
+            Help future students by sharing your interview journey. All
+            submissions are reviewed before being published.
           </p>
           <div className="mt-4">
             <Button variant="outline" asChild>
@@ -148,18 +149,22 @@ export default function SubmitExperience() {
           <Card>
             <CardHeader>
               <CardTitle>Personal Information</CardTitle>
-              <CardDescription>Your name and LinkedIn profile will be visible to other students</CardDescription>
+              <CardDescription>
+                Your name and LinkedIn profile will be visible to other students
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="student_name">Student Name *</Label>
                 <Input
                   id="student_name"
-                  {...register('student_name')}
+                  {...register("student_name")}
                   placeholder="John Doe"
                 />
                 {errors.student_name && (
-                  <p className="text-sm text-red-600">{errors.student_name.message}</p>
+                  <p className="text-sm text-red-600">
+                    {errors.student_name.message}
+                  </p>
                 )}
               </div>
 
@@ -167,12 +172,14 @@ export default function SubmitExperience() {
                 <Label htmlFor="linkedin_url">LinkedIn URL *</Label>
                 <Input
                   id="linkedin_url"
-                  {...register('linkedin_url')}
+                  {...register("linkedin_url")}
                   placeholder="https://linkedin.com/in/johndoe"
                   type="url"
                 />
                 {errors.linkedin_url && (
-                  <p className="text-sm text-red-600">{errors.linkedin_url.message}</p>
+                  <p className="text-sm text-red-600">
+                    {errors.linkedin_url.message}
+                  </p>
                 )}
               </div>
             </CardContent>
@@ -188,11 +195,13 @@ export default function SubmitExperience() {
                 <Label htmlFor="company">Company *</Label>
                 <Input
                   id="company"
-                  {...register('company')}
+                  {...register("company")}
                   placeholder="e.g., Google, Amazon, Microsoft"
                 />
                 {errors.company && (
-                  <p className="text-sm text-red-600">{errors.company.message}</p>
+                  <p className="text-sm text-red-600">
+                    {errors.company.message}
+                  </p>
                 )}
               </div>
 
@@ -200,11 +209,13 @@ export default function SubmitExperience() {
                 <Label htmlFor="position">Position *</Label>
                 <Input
                   id="position"
-                  {...register('position')}
+                  {...register("position")}
                   placeholder="e.g., Software Engineering Internship"
                 />
                 {errors.position && (
-                  <p className="text-sm text-red-600">{errors.position.message}</p>
+                  <p className="text-sm text-red-600">
+                    {errors.position.message}
+                  </p>
                 )}
               </div>
             </CardContent>
@@ -214,7 +225,9 @@ export default function SubmitExperience() {
           <Card>
             <CardHeader>
               <CardTitle>Timeline</CardTitle>
-              <CardDescription>When did each stage happen? (Optional)</CardDescription>
+              <CardDescription>
+                When did each stage happen? (Optional)
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -223,7 +236,7 @@ export default function SubmitExperience() {
                   <Input
                     id="applied_date"
                     type="date"
-                    {...register('applied_date')}
+                    {...register("applied_date")}
                   />
                 </div>
 
@@ -232,7 +245,7 @@ export default function SubmitExperience() {
                   <Input
                     id="interviewed_date"
                     type="date"
-                    {...register('interviewed_date')}
+                    {...register("interviewed_date")}
                   />
                 </div>
 
@@ -241,7 +254,7 @@ export default function SubmitExperience() {
                   <Input
                     id="result_date"
                     type="date"
-                    {...register('result_date')}
+                    {...register("result_date")}
                   />
                 </div>
               </div>
@@ -252,7 +265,9 @@ export default function SubmitExperience() {
           <Card>
             <CardHeader>
               <CardTitle>Interview Details</CardTitle>
-              <CardDescription>How many of each type of interview did you have?</CardDescription>
+              <CardDescription>
+                How many of each type of interview did you have?
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -262,27 +277,35 @@ export default function SubmitExperience() {
                     id="phone_screens"
                     type="number"
                     min="0"
-                    {...register('phone_screens')}
+                    {...register("phone_screens", { valueAsNumber: true })}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="technical_interviews">Technical Interviews</Label>
+                  <Label htmlFor="technical_interviews">
+                    Technical Interviews
+                  </Label>
                   <Input
                     id="technical_interviews"
                     type="number"
                     min="0"
-                    {...register('technical_interviews')}
+                    {...register("technical_interviews", {
+                      valueAsNumber: true,
+                    })}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="behavioral_interviews">Behavioral Interviews</Label>
+                  <Label htmlFor="behavioral_interviews">
+                    Behavioral Interviews
+                  </Label>
                   <Input
                     id="behavioral_interviews"
                     type="number"
                     min="0"
-                    {...register('behavioral_interviews')}
+                    {...register("behavioral_interviews", {
+                      valueAsNumber: true,
+                    })}
                   />
                 </div>
 
@@ -292,7 +315,7 @@ export default function SubmitExperience() {
                     id="other_interviews"
                     type="number"
                     min="0"
-                    {...register('other_interviews')}
+                    {...register("other_interviews", { valueAsNumber: true })}
                   />
                 </div>
               </div>
@@ -304,17 +327,20 @@ export default function SubmitExperience() {
             <CardHeader>
               <CardTitle>Interview Questions *</CardTitle>
               <CardDescription>
-                What questions were you asked? Be as detailed as possible to help others prepare.
+                What questions were you asked? Be as detailed as possible to
+                help others prepare.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Textarea
-                {...register('interview_questions')}
+                {...register("interview_questions")}
                 placeholder="Example: Technical round - Asked to implement a binary search tree, design a URL shortener. Behavioral - Tell me about a time you worked in a team..."
                 className="min-h-[150px]"
               />
               {errors.interview_questions && (
-                <p className="text-sm text-red-600 mt-2">{errors.interview_questions.message}</p>
+                <p className="text-sm text-red-600 mt-2">
+                  {errors.interview_questions.message}
+                </p>
               )}
             </CardContent>
           </Card>
@@ -329,12 +355,14 @@ export default function SubmitExperience() {
             </CardHeader>
             <CardContent>
               <Textarea
-                {...register('advice_tips')}
+                {...register("advice_tips")}
                 placeholder="Example: Practice LeetCode medium problems, review system design basics, prepare STAR method examples, be ready to discuss projects in detail..."
                 className="min-h-[150px]"
               />
               {errors.advice_tips && (
-                <p className="text-sm text-red-600 mt-2">{errors.advice_tips.message}</p>
+                <p className="text-sm text-red-600 mt-2">
+                  {errors.advice_tips.message}
+                </p>
               )}
             </CardContent>
           </Card>
@@ -342,29 +370,38 @@ export default function SubmitExperience() {
           {/* Consent */}
           <Card className="border-yellow-200 dark:border-yellow-900 bg-yellow-50 dark:bg-yellow-950/20">
             <CardHeader>
-              <CardTitle className="text-yellow-800 dark:text-yellow-200">Consent Required</CardTitle>
+              <CardTitle className="text-yellow-800 dark:text-yellow-200">
+                Consent Required
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-start space-x-3">
                 <Checkbox
                   id="consent_given"
                   checked={consentGiven}
-                  onCheckedChange={(checked) => setValue('consent_given', checked as boolean)}
+                  onCheckedChange={(checked) =>
+                    setValue("consent_given", checked as boolean)
+                  }
                 />
                 <div className="space-y-1">
                   <Label
                     htmlFor="consent_given"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                   >
-                    I consent to having my name and LinkedIn profile visible to future students *
+                    I consent to having my name and LinkedIn profile visible to
+                    future students *
                   </Label>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Your submission will help other students prepare for their interviews. Your contact information will be shared to enable networking.
+                    Your submission will help other students prepare for their
+                    interviews. Your contact information will be shared to
+                    enable networking.
                   </p>
                 </div>
               </div>
               {errors.consent_given && (
-                <p className="text-sm text-red-600 mt-2">{errors.consent_given.message}</p>
+                <p className="text-sm text-red-600 mt-2">
+                  {errors.consent_given.message}
+                </p>
               )}
             </CardContent>
           </Card>
@@ -377,7 +414,7 @@ export default function SubmitExperience() {
               size="lg"
               className="w-full md:w-auto"
             >
-              {isSubmitting ? 'Submitting...' : 'Submit Experience'}
+              {isSubmitting ? "Submitting..." : "Submit Experience"}
             </Button>
           </div>
         </form>

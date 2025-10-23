@@ -101,7 +101,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Interview Experiences
+              🍘 Fried Rice
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Student-shared interview insights

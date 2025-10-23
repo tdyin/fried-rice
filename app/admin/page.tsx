@@ -254,7 +254,10 @@ export default function AdminDashboard() {
       <header className="border-b bg-white dark:bg-black sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              {" "}
+              🧑‍🍳 Rice Cooker
+            </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Manage interview experience submissions
             </p>
@@ -279,54 +282,54 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <Card
             className={`cursor-pointer transition-all ${
-              statusFilter === 'pending' ? 'ring-2 ring-blue-500' : ''
+              statusFilter === "pending" ? "ring-2 ring-blue-500" : ""
             }`}
-            onClick={() => setStatusFilter('pending')}
+            onClick={() => setStatusFilter("pending")}
           >
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium">Pending</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {submissions.filter((s) => s.status === 'pending').length}
+                {submissions.filter((s) => s.status === "pending").length}
               </div>
             </CardContent>
           </Card>
           <Card
             className={`cursor-pointer transition-all ${
-              statusFilter === 'approved' ? 'ring-2 ring-green-500' : ''
+              statusFilter === "approved" ? "ring-2 ring-green-500" : ""
             }`}
-            onClick={() => setStatusFilter('approved')}
+            onClick={() => setStatusFilter("approved")}
           >
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium">Approved</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {submissions.filter((s) => s.status === 'approved').length}
+                {submissions.filter((s) => s.status === "approved").length}
               </div>
             </CardContent>
           </Card>
           <Card
             className={`cursor-pointer transition-all ${
-              statusFilter === 'rejected' ? 'ring-2 ring-red-500' : ''
+              statusFilter === "rejected" ? "ring-2 ring-red-500" : ""
             }`}
-            onClick={() => setStatusFilter('rejected')}
+            onClick={() => setStatusFilter("rejected")}
           >
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium">Rejected</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {submissions.filter((s) => s.status === 'rejected').length}
+                {submissions.filter((s) => s.status === "rejected").length}
               </div>
             </CardContent>
           </Card>
           <Card
             className={`cursor-pointer transition-all ${
-              statusFilter === 'all' ? 'ring-2 ring-purple-500' : ''
+              statusFilter === "all" ? "ring-2 ring-purple-500" : ""
             }`}
-            onClick={() => setStatusFilter('all')}
+            onClick={() => setStatusFilter("all")}
           >
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium">Total</CardTitle>
@@ -342,17 +345,22 @@ export default function AdminDashboard() {
           <CardHeader>
             <CardTitle>Submissions</CardTitle>
             <CardDescription>
-              Showing {filteredSubmissions.length} {statusFilter !== 'all' ? statusFilter : ''} submission(s)
+              Showing {filteredSubmissions.length}{" "}
+              {statusFilter !== "all" ? statusFilter : ""} submission(s)
             </CardDescription>
           </CardHeader>
           <CardContent>
             {isLoading ? (
               <div className="text-center py-12">
-                <p className="text-gray-600 dark:text-gray-400">Loading submissions...</p>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Loading submissions...
+                </p>
               </div>
             ) : filteredSubmissions.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-600 dark:text-gray-400">No submissions found.</p>
+                <p className="text-gray-600 dark:text-gray-400">
+                  No submissions found.
+                </p>
               </div>
             ) : (
               <div className="overflow-x-auto">
@@ -370,17 +378,19 @@ export default function AdminDashboard() {
                   <TableBody>
                     {filteredSubmissions.map((submission) => (
                       <TableRow key={submission.id}>
-                        <TableCell className="font-medium">{submission.student_name}</TableCell>
+                        <TableCell className="font-medium">
+                          {submission.student_name}
+                        </TableCell>
                         <TableCell>{submission.company}</TableCell>
                         <TableCell>{submission.position}</TableCell>
                         <TableCell>
                           <Badge
                             variant={
-                              submission.status === 'approved'
-                                ? 'default'
-                                : submission.status === 'rejected'
-                                ? 'destructive'
-                                : 'secondary'
+                              submission.status === "approved"
+                                ? "default"
+                                : submission.status === "rejected"
+                                ? "destructive"
+                                : "secondary"
                             }
                           >
                             {submission.status}
@@ -405,19 +415,29 @@ export default function AdminDashboard() {
                             >
                               <Edit2 className="h-4 w-4" />
                             </Button>
-                            {submission.status === 'pending' && (
+                            {submission.status === "pending" && (
                               <>
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  onClick={() => updateSubmissionStatus(submission.id, 'approved')}
+                                  onClick={() =>
+                                    updateSubmissionStatus(
+                                      submission.id,
+                                      "approved"
+                                    )
+                                  }
                                 >
                                   <CheckCircle className="h-4 w-4 text-green-600" />
                                 </Button>
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  onClick={() => updateSubmissionStatus(submission.id, 'rejected')}
+                                  onClick={() =>
+                                    updateSubmissionStatus(
+                                      submission.id,
+                                      "rejected"
+                                    )
+                                  }
                                 >
                                   <XCircle className="h-4 w-4 text-red-600" />
                                 </Button>
@@ -447,14 +467,18 @@ export default function AdminDashboard() {
         <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>View Submission</DialogTitle>
-            <DialogDescription>Full details of the submission</DialogDescription>
+            <DialogDescription>
+              Full details of the submission
+            </DialogDescription>
           </DialogHeader>
           {selectedSubmission && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label>Student Name</Label>
-                  <p className="text-sm mt-1">{selectedSubmission.student_name}</p>
+                  <p className="text-sm mt-1">
+                    {selectedSubmission.student_name}
+                  </p>
                 </div>
                 <div>
                   <Label>LinkedIn URL</Label>
@@ -481,43 +505,57 @@ export default function AdminDashboard() {
                   <Label>Applied Date</Label>
                   <p className="text-sm mt-1">
                     {selectedSubmission.applied_date
-                      ? new Date(selectedSubmission.applied_date).toLocaleDateString()
-                      : 'N/A'}
+                      ? new Date(
+                          selectedSubmission.applied_date
+                        ).toLocaleDateString()
+                      : "N/A"}
                   </p>
                 </div>
                 <div>
                   <Label>Interview Date</Label>
                   <p className="text-sm mt-1">
                     {selectedSubmission.interviewed_date
-                      ? new Date(selectedSubmission.interviewed_date).toLocaleDateString()
-                      : 'N/A'}
+                      ? new Date(
+                          selectedSubmission.interviewed_date
+                        ).toLocaleDateString()
+                      : "N/A"}
                   </p>
                 </div>
                 <div>
                   <Label>Result Date</Label>
                   <p className="text-sm mt-1">
                     {selectedSubmission.result_date
-                      ? new Date(selectedSubmission.result_date).toLocaleDateString()
-                      : 'N/A'}
+                      ? new Date(
+                          selectedSubmission.result_date
+                        ).toLocaleDateString()
+                      : "N/A"}
                   </p>
                 </div>
               </div>
               <div className="grid grid-cols-4 gap-4">
                 <div>
                   <Label>Phone Screens</Label>
-                  <p className="text-sm mt-1">{selectedSubmission.phone_screens}</p>
+                  <p className="text-sm mt-1">
+                    {selectedSubmission.phone_screens}
+                  </p>
                 </div>
                 <div>
                   <Label>Technical</Label>
-                  <p className="text-sm mt-1">{selectedSubmission.technical_interviews}</p>
+                  <p className="text-sm mt-1">
+                    {selectedSubmission.technical_interviews}
+                  </p>
                 </div>
                 <div>
                   <Label>Behavioral</Label>
-                  <p className="text-sm mt-1">{selectedSubmission.behavioral_interviews}</p>
+                  <p className="text-sm mt-1">
+                    {selectedSubmission.behavioral_interviews}
+                  </p>
                 </div>
                 <div>
                   <Label>Other</Label>
-                  <p className="text-sm mt-1">{selectedSubmission.other_interviews}</p>
+                  <p className="text-sm mt-1">
+                    {selectedSubmission.other_interviews}
+                  </p>
                 </div>
               </div>
               <div>
@@ -542,7 +580,9 @@ export default function AdminDashboard() {
         <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Submission</DialogTitle>
-            <DialogDescription>Make changes to the submission</DialogDescription>
+            <DialogDescription>
+              Make changes to the submission
+            </DialogDescription>
           </DialogHeader>
           {selectedSubmission && (
             <div className="space-y-4">
@@ -551,32 +591,40 @@ export default function AdminDashboard() {
                   <Label htmlFor="edit_student_name">Student Name</Label>
                   <Input
                     id="edit_student_name"
-                    value={editForm.student_name || ''}
-                    onChange={(e) => setEditForm({ ...editForm, student_name: e.target.value })}
+                    value={editForm.student_name || ""}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, student_name: e.target.value })
+                    }
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="edit_linkedin_url">LinkedIn URL</Label>
                   <Input
                     id="edit_linkedin_url"
-                    value={editForm.linkedin_url || ''}
-                    onChange={(e) => setEditForm({ ...editForm, linkedin_url: e.target.value })}
+                    value={editForm.linkedin_url || ""}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, linkedin_url: e.target.value })
+                    }
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="edit_company">Company</Label>
                   <Input
                     id="edit_company"
-                    value={editForm.company || ''}
-                    onChange={(e) => setEditForm({ ...editForm, company: e.target.value })}
+                    value={editForm.company || ""}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, company: e.target.value })
+                    }
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="edit_position">Position</Label>
                   <Input
                     id="edit_position"
-                    value={editForm.position || ''}
-                    onChange={(e) => setEditForm({ ...editForm, position: e.target.value })}
+                    value={editForm.position || ""}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, position: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -584,9 +632,12 @@ export default function AdminDashboard() {
                 <Label htmlFor="edit_questions">Interview Questions</Label>
                 <Textarea
                   id="edit_questions"
-                  value={editForm.interview_questions || ''}
+                  value={editForm.interview_questions || ""}
                   onChange={(e) =>
-                    setEditForm({ ...editForm, interview_questions: e.target.value })
+                    setEditForm({
+                      ...editForm,
+                      interview_questions: e.target.value,
+                    })
                   }
                   className="min-h-[150px]"
                 />
@@ -595,8 +646,10 @@ export default function AdminDashboard() {
                 <Label htmlFor="edit_advice">Advice & Tips</Label>
                 <Textarea
                   id="edit_advice"
-                  value={editForm.advice_tips || ''}
-                  onChange={(e) => setEditForm({ ...editForm, advice_tips: e.target.value })}
+                  value={editForm.advice_tips || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, advice_tips: e.target.value })
+                  }
                   className="min-h-[150px]"
                 />
               </div>
@@ -604,11 +657,14 @@ export default function AdminDashboard() {
                 <Label htmlFor="edit_status">Status</Label>
                 <select
                   id="edit_status"
-                  value={editForm.status || 'pending'}
+                  value={editForm.status || "pending"}
                   onChange={(e) =>
                     setEditForm({
                       ...editForm,
-                      status: e.target.value as 'pending' | 'approved' | 'rejected',
+                      status: e.target.value as
+                        | "pending"
+                        | "approved"
+                        | "rejected",
                     })
                   }
                   className="w-full h-10 px-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950 text-sm"
@@ -621,7 +677,10 @@ export default function AdminDashboard() {
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditDialogOpen(false)}
+            >
               Cancel
             </Button>
             <Button onClick={handleEdit}>Save Changes</Button>
