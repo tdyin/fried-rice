@@ -11,7 +11,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, Briefcase, Calendar, User, ExternalLink } from "lucide-react";
+import {
+  Search,
+  Briefcase,
+  Calendar,
+  User,
+  ExternalLink,
+  ArrowUp,
+} from "lucide-react";
 import Link from "next/link";
 import { Database } from "@/lib/database.types";
 
@@ -26,9 +33,19 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [keyword, setKeyword] = useState("");
   const [companyFilter, setCompanyFilter] = useState("");
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
     fetchExperiences();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -93,6 +110,13 @@ export default function Home() {
   const uniqueCompanies = Array.from(
     new Set(experiences.map((exp) => exp.company))
   ).sort();
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-black">
@@ -342,6 +366,17 @@ export default function Home() {
           </p>
         </div>
       </footer>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <Button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 rounded-full w-12 h-12 p-0 shadow-lg hover:shadow-xl transition-shadow"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="h-5 w-5" />
+        </Button>
+      )}
     </div>
   );
 }
