@@ -500,37 +500,27 @@ export default function AdminDashboard() {
                   <p className="text-sm mt-1">{selectedSubmission.position}</p>
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <Label>Applied Date</Label>
-                  <p className="text-sm mt-1">
-                    {selectedSubmission.applied_date
-                      ? new Date(
-                          selectedSubmission.applied_date
-                        ).toLocaleDateString()
-                      : "N/A"}
+              <div>
+                <Label>Timeline</Label>
+                {selectedSubmission.interview_dates &&
+                selectedSubmission.interview_dates.length > 0 ? (
+                  <div className="mt-2 space-y-1">
+                    {selectedSubmission.interview_dates.map(
+                      (dateEntry, idx) => (
+                        <p key={idx} className="text-sm">
+                          <span className="font-medium">
+                            {dateEntry.label}:
+                          </span>{" "}
+                          {new Date(dateEntry.date).toLocaleDateString()}
+                        </p>
+                      )
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-sm mt-1 text-gray-500">
+                    No dates provided
                   </p>
-                </div>
-                <div>
-                  <Label>Interview Date</Label>
-                  <p className="text-sm mt-1">
-                    {selectedSubmission.interviewed_date
-                      ? new Date(
-                          selectedSubmission.interviewed_date
-                        ).toLocaleDateString()
-                      : "N/A"}
-                  </p>
-                </div>
-                <div>
-                  <Label>Result Date</Label>
-                  <p className="text-sm mt-1">
-                    {selectedSubmission.result_date
-                      ? new Date(
-                          selectedSubmission.result_date
-                        ).toLocaleDateString()
-                      : "N/A"}
-                  </p>
-                </div>
+                )}
               </div>
               <div className="grid grid-cols-4 gap-4">
                 <div>

@@ -13,24 +13,33 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { toast } from 'sonner';
 import Link from 'next/link';
 
+const interviewDateSchema = z.object({
+  label: z.string().min(1, "Label is required"),
+  date: z.string().min(1, "Date is required"),
+});
+
 const submissionSchema = z.object({
-  student_name: z.string().min(1, 'Student name is required'),
-  linkedin_url: z.string().url('Must be a valid URL').refine(
-    (url) => url.includes('linkedin.com'),
-    'Must be a LinkedIn URL'
-  ),
-  company: z.string().min(1, 'Company name is required'),
-  position: z.string().min(1, 'Position is required'),
-  applied_date: z.string().optional(),
-  interviewed_date: z.string().optional(),
-  result_date: z.string().optional(),
+  student_name: z.string().min(1, "Student name is required"),
+  linkedin_url: z
+    .string()
+    .url("Must be a valid URL")
+    .refine((url) => url.includes("linkedin.com"), "Must be a LinkedIn URL"),
+  company: z.string().min(1, "Company name is required"),
+  position: z.string().min(1, "Position is required"),
+  interview_dates: z.array(interviewDateSchema),
   phone_screens: z.number().min(0),
   technical_interviews: z.number().min(0),
   behavioral_interviews: z.number().min(0),
   other_interviews: z.number().min(0),
-  interview_questions: z.string().min(10, 'Please provide interview questions (minimum 10 characters)'),
-  advice_tips: z.string().min(10, 'Please provide advice/tips (minimum 10 characters)'),
-  consent_given: z.boolean().refine((val) => val === true, 'You must give consent to proceed'),
+  interview_questions: z
+    .string()
+    .min(10, "Please provide interview questions (minimum 10 characters)"),
+  advice_tips: z
+    .string()
+    .min(10, "Please provide advice/tips (minimum 10 characters)"),
+  consent_given: z
+    .boolean()
+    .refine((val) => val === true, "You must give consent to proceed"),
 });
 
 type SubmissionFormData = z.infer<typeof submissionSchema>;
@@ -38,6 +47,11 @@ type SubmissionFormData = z.infer<typeof submissionSchema>;
 export default function SubmitExperience() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [interviewDates, setInterviewDates] = useState<
+    Array<{ label: string; date: string }>
+  >([]);
+  const [newDateLabel, setNewDateLabel] = useState("");
+  const [newDateValue, setNewDateValue] = useState("");
 
   const {
     register,
@@ -54,42 +68,79 @@ export default function SubmitExperience() {
       behavioral_interviews: 0,
       other_interviews: 0,
       consent_given: false,
+      interview_dates: [],
     },
   });
 
-  const consentGiven = watch('consent_given');
+  const consentGiven = watch("consent_given");
+
+  const addInterviewDate = () => {
+    if (newDateLabel.trim() && newDateValue) {
+      const updatedDates = [
+        ...interviewDates,
+        { label: newDateLabel.trim(), date: newDateValue },
+      ];
+      setInterviewDates(updatedDates);
+      setValue("interview_dates", updatedDates);
+      setNewDateLabel("");
+      setNewDateValue("");
+    }
+  };
+
+  const removeInterviewDate = (index: number) => {
+    const updatedDates = interviewDates.filter((_, i) => i !== index);
+    setInterviewDates(updatedDates);
+    setValue("interview_dates", updatedDates);
+  };
+
+  const moveInterviewDate = (index: number, direction: "up" | "down") => {
+    if (
+      (direction === "up" && index === 0) ||
+      (direction === "down" && index === interviewDates.length - 1)
+    ) {
+      return;
+    }
+
+    const updatedDates = [...interviewDates];
+    const newIndex = direction === "up" ? index - 1 : index + 1;
+    [updatedDates[index], updatedDates[newIndex]] = [
+      updatedDates[newIndex],
+      updatedDates[index],
+    ];
+    setInterviewDates(updatedDates);
+    setValue("interview_dates", updatedDates);
+  };
 
   const onSubmit = async (data: SubmissionFormData) => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/submissions', {
-        method: 'POST',
+      const response = await fetch("/api/submissions", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...data,
-          applied_date: data.applied_date || null,
-          interviewed_date: data.interviewed_date || null,
-          result_date: data.result_date || null,
-        }),
+        body: JSON.stringify(data),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to submit');
+        throw new Error(result.error || "Failed to submit");
       }
 
-      toast.success('Success!', {
+      toast.success("Success!", {
         description: result.message,
       });
       setShowSuccess(true);
       reset();
+      setInterviewDates([]);
     } catch (error) {
-      toast.error('Error', {
-        description: error instanceof Error ? error.message : 'Failed to submit your experience',
+      toast.error("Error", {
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to submit your experience",
       });
     } finally {
       setIsSubmitting(false);
@@ -226,38 +277,85 @@ export default function SubmitExperience() {
             <CardHeader>
               <CardTitle>Timeline</CardTitle>
               <CardDescription>
-                When did each stage happen? (Optional)
+                Add important dates in your interview process (Optional)
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-3">
+                {interviewDates.map((dateEntry, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                  >
+                    <div className="flex-1">
+                      <span className="font-medium">{dateEntry.label}:</span>{" "}
+                      <span className="text-gray-600 dark:text-gray-400">
+                        {new Date(dateEntry.date).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="flex gap-1">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => moveInterviewDate(index, "up")}
+                        disabled={index === 0}
+                      >
+                        ↑
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => moveInterviewDate(index, "down")}
+                        disabled={index === interviewDates.length - 1}
+                      >
+                        ↓
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeInterviewDate(index)}
+                      >
+                        ✕
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <Label htmlFor="applied_date">Applied Date</Label>
+                  <Label htmlFor="new_date_label">Date Label</Label>
                   <Input
-                    id="applied_date"
-                    type="date"
-                    {...register("applied_date")}
+                    id="new_date_label"
+                    value={newDateLabel}
+                    onChange={(e) => setNewDateLabel(e.target.value)}
+                    placeholder="e.g., Applied, Phone Screen, Final Round"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="interviewed_date">Interview Date</Label>
+                  <Label htmlFor="new_date_value">Date</Label>
                   <Input
-                    id="interviewed_date"
+                    id="new_date_value"
                     type="date"
-                    {...register("interviewed_date")}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="result_date">Result Date</Label>
-                  <Input
-                    id="result_date"
-                    type="date"
-                    {...register("result_date")}
+                    value={newDateValue}
+                    onChange={(e) => setNewDateValue(e.target.value)}
                   />
                 </div>
               </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                onClick={addInterviewDate}
+                disabled={!newDateLabel.trim() || !newDateValue}
+                className="w-full"
+              >
+                + Add Date
+              </Button>
             </CardContent>
           </Card>
 
