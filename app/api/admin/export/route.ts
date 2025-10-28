@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
-import { Database } from '@/lib/database.types';
+import { Database, InterviewDate } from "@/lib/database.types";
 
 type InterviewExperience = Database['public']['Tables']['interview_experiences']['Row'];
 
@@ -42,26 +42,24 @@ export async function GET(request: NextRequest) {
     }
 
     const headers = [
-      'ID',
-      'Student Name',
-      'LinkedIn URL',
-      'Company',
-      'Position',
-      'Applied Date',
-      'Interviewed Date',
-      'Result Date',
-      'Phone Screens',
-      'Technical Interviews',
-      'Behavioral Interviews',
-      'Other Interviews',
-      'Interview Questions',
-      'Advice/Tips',
-      'Status',
-      'Created At',
+      "ID",
+      "Student Name",
+      "LinkedIn URL",
+      "Company",
+      "Position",
+      "Interview Dates",
+      "Phone Screens",
+      "Technical Interviews",
+      "Behavioral Interviews",
+      "Other Interviews",
+      "Interview Questions",
+      "Advice/Tips",
+      "Status",
+      "Created At",
     ];
 
     const csvRows = [
-      headers.join(','),
+      headers.join(","),
       ...data.map((row: InterviewExperience) =>
         [
           row.id,
@@ -69,9 +67,9 @@ export async function GET(request: NextRequest) {
           `"${row.linkedin_url}"`,
           `"${row.company.replace(/"/g, '""')}"`,
           `"${row.position.replace(/"/g, '""')}"`,
-          row.applied_date || '',
-          row.interviewed_date || '',
-          row.result_date || '',
+          `"${row.interview_dates
+            .map((d: InterviewDate) => `${d.label}: ${d.date}`)
+            .join("; ")}"`,
           row.phone_screens,
           row.technical_interviews,
           row.behavioral_interviews,
@@ -80,7 +78,7 @@ export async function GET(request: NextRequest) {
           `"${row.advice_tips.replace(/"/g, '""')}"`,
           row.status,
           row.created_at,
-        ].join(',')
+        ].join(",")
       ),
     ];
 

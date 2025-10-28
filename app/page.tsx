@@ -244,36 +244,17 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {/* Timeline */}
-                  {(experience.applied_date ||
-                    experience.interviewed_date ||
-                    experience.result_date) && (
-                    <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 p-3 rounded-lg">
-                      {experience.applied_date && (
-                        <span>
-                          Applied:{" "}
-                          {new Date(
-                            experience.applied_date
-                          ).toLocaleDateString()}
-                        </span>
-                      )}
-                      {experience.interviewed_date && (
-                        <span>
-                          Interviewed:{" "}
-                          {new Date(
-                            experience.interviewed_date
-                          ).toLocaleDateString()}
-                        </span>
-                      )}
-                      {experience.result_date && (
-                        <span>
-                          Result:{" "}
-                          {new Date(
-                            experience.result_date
-                          ).toLocaleDateString()}
-                        </span>
-                      )}
-                    </div>
-                  )}
+                  {experience.interview_dates &&
+                    experience.interview_dates.length > 0 && (
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 p-3 rounded-lg">
+                        {experience.interview_dates.map((dateEntry, idx) => (
+                          <span key={idx}>
+                            {dateEntry.label}:{" "}
+                            {new Date(dateEntry.date).toLocaleDateString()}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
                   {/* Interview Count */}
                   <div className="flex flex-wrap gap-2">
