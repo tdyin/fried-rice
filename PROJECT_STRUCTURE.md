@@ -25,6 +25,30 @@ fried-rice/
 │   ├── layout.tsx                # Root layout with metadata
 │   └── page.tsx                  # Homepage with search/browse
 ├── components/                   # React components
+│   ├── admin/                    # Admin page components
+│   │   ├── AdminHeader.tsx       # Admin dashboard header
+│   │   ├── EditDialog.tsx        # Edit submission dialog
+│   │   ├── LoginForm.tsx         # Admin login form
+│   │   ├── StatsCards.tsx        # Statistics cards with filters
+│   │   ├── SubmissionsTable.tsx  # Submissions table with actions
+│   │   └── ViewDialog.tsx        # View submission details dialog
+│   ├── home/                     # Homepage components
+│   │   ├── BackToTop.tsx         # Scroll-to-top button
+│   │   ├── EmptyState.tsx        # Empty state display
+│   │   ├── ExperienceCard.tsx    # Individual experience card
+│   │   ├── Footer.tsx            # Footer with team info
+│   │   ├── Header.tsx            # Main header with navigation
+│   │   ├── LoadingState.tsx      # Loading state display
+│   │   └── SearchFilter.tsx      # Search and filter interface
+│   ├── submit/                   # Submit page components
+│   │   ├── AdviceTipsSection.tsx        # Advice form section
+│   │   ├── CompanyPositionSection.tsx   # Company/position form section
+│   │   ├── ConsentSection.tsx           # Consent checkbox section
+│   │   ├── InterviewDetailsSection.tsx  # Interview details form section
+│   │   ├── InterviewQuestionsSection.tsx # Questions form section
+│   │   ├── PersonalInfoSection.tsx      # Personal info form section
+│   │   ├── SuccessView.tsx              # Success confirmation view
+│   │   └── TimelineSection.tsx          # Timeline management section
 │   └── ui/                       # shadcn/ui components
 │       ├── badge.tsx
 │       ├── button.tsx
@@ -70,6 +94,14 @@ fried-rice/
   - Keyword highlighting in search results
   - Responsive card layout
 - **Data Flow**: Fetches from `/api/experiences` (approved only)
+- **Components Used**:
+  - `Header` - Navigation and branding
+  - `SearchFilter` - Search and filter controls
+  - `ExperienceCard` - Individual experience display
+  - `Footer` - Site footer
+  - `BackToTop` - Scroll to top button
+  - `LoadingState` - Loading indicator
+  - `EmptyState` - No results message
 
 #### `app/submit/page.tsx` - Submission Form
 - **Purpose**: Allow students to submit their interview experiences
@@ -80,6 +112,15 @@ fried-rice/
   - Interview type breakdown (phone, technical, behavioral, other)
   - Success confirmation screen
 - **Data Flow**: Posts to `/api/submissions`
+- **Components Used**:
+  - `SuccessView` - Post-submission success screen
+  - `PersonalInfoSection` - Name and LinkedIn input
+  - `CompanyPositionSection` - Company and position fields
+  - `TimelineSection` - Interview timeline management
+  - `InterviewDetailsSection` - Interview counts by type
+  - `InterviewQuestionsSection` - Questions textarea
+  - `AdviceTipsSection` - Advice textarea
+  - `ConsentSection` - Consent checkbox
 
 #### `app/admin/page.tsx` - Admin Dashboard
 - **Purpose**: Review, approve, edit, and delete submissions
@@ -93,6 +134,13 @@ fried-rice/
   - Delete submissions
   - CSV export button
 - **Authentication**: Uses `ADMIN_PASSWORD` from environment variables
+- **Components Used**:
+  - `LoginForm` - Admin authentication interface
+  - `AdminHeader` - Dashboard header with actions
+  - `StatsCards` - Statistics and filter cards
+  - `SubmissionsTable` - Main submissions table
+  - `ViewDialog` - Read-only submission details
+  - `EditDialog` - Edit submission form
 
 ### API Routes
 
@@ -155,7 +203,40 @@ fried-rice/
 
 ### UI Components
 
-All UI components in `components/ui/` are from shadcn/ui:
+#### Custom Components
+
+The application uses custom components organized by page:
+
+**`components/home/`** - Homepage components:
+- `Header.tsx` - Site header with logo and navigation link
+- `SearchFilter.tsx` - Search input and company filter dropdown
+- `ExperienceCard.tsx` - Card displaying interview experience details
+- `Footer.tsx` - Site footer with team credits
+- `BackToTop.tsx` - Floating button to scroll to top
+- `LoadingState.tsx` - Loading spinner/message
+- `EmptyState.tsx` - Message when no experiences found
+
+**`components/submit/`** - Submission form components:
+- `SuccessView.tsx` - Success message after submission
+- `PersonalInfoSection.tsx` - Student name and LinkedIn form section
+- `CompanyPositionSection.tsx` - Company and position form section
+- `TimelineSection.tsx` - Interview timeline with add/remove/reorder
+- `InterviewDetailsSection.tsx` - Interview type counts
+- `InterviewQuestionsSection.tsx` - Questions textarea section
+- `AdviceTipsSection.tsx` - Advice textarea section
+- `ConsentSection.tsx` - Consent checkbox with explanation
+
+**`components/admin/`** - Admin dashboard components:
+- `LoginForm.tsx` - Admin password entry form
+- `AdminHeader.tsx` - Dashboard header with export and logout
+- `StatsCards.tsx` - Four stats cards with filtering
+- `SubmissionsTable.tsx` - Main table with all submissions and actions
+- `ViewDialog.tsx` - Modal for viewing submission details
+- `EditDialog.tsx` - Modal for editing submission fields
+
+#### shadcn/ui Components
+
+All base UI components in `components/ui/` are from shadcn/ui:
 - **Installed via CLI**: `npx shadcn@latest add <component>`
 - **Customizable**: Can modify any component
 - **Accessible**: Built with Radix UI primitives
@@ -232,15 +313,17 @@ User visits homepage → GET /api/experiences
    new_field: string
    ```
 
-3. **Update Form** (`app/submit/page.tsx`):
-   - Add field to Zod schema
-   - Add input to form JSX
+3. **Update Form**:
+   - Add field to Zod schema in `app/submit/page.tsx`
+   - Create new section component in `components/submit/` or add to existing section
+   - Import and use the component in `app/submit/page.tsx`
 
-4. **Update Display** (`app/page.tsx`):
-   - Add field to card display
+4. **Update Display**:
+   - Add field to `components/home/ExperienceCard.tsx` component
 
-5. **Update Admin** (`app/admin/page.tsx`):
-   - Add field to view/edit dialogs
+5. **Update Admin**:
+   - Add field to `components/admin/ViewDialog.tsx` (read-only view)
+   - Add field to `components/admin/EditDialog.tsx` (edit form)
 
 ### Modifying Search
 
@@ -252,6 +335,8 @@ filtered = filtered.filter((exp) =>
   exp.new_field.toLowerCase().includes(keyword) // Add new field
 );
 ```
+
+If you need to update the search UI, edit `components/home/SearchFilter.tsx`.
 
 ### Changing Theme
 
