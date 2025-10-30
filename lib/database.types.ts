@@ -29,6 +29,7 @@ export interface Database {
           interview_questions: string;
           advice_tips: string;
           status: "pending" | "approved" | "rejected";
+          is_anonymous: boolean;
           created_at: string;
           updated_at: string;
         };
@@ -46,6 +47,7 @@ export interface Database {
           interview_questions: string;
           advice_tips: string;
           status?: "pending" | "approved" | "rejected";
+          is_anonymous?: boolean;
           created_at?: string;
           updated_at?: string;
         };
@@ -63,6 +65,7 @@ export interface Database {
           interview_questions?: string;
           advice_tips?: string;
           status?: "pending" | "approved" | "rejected";
+          is_anonymous?: boolean;
           created_at?: string;
           updated_at?: string;
         };

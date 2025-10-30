@@ -25,6 +25,7 @@ const submissionSchema = z.object({
   advice_tips: z
     .string()
     .min(10, "Please provide advice/tips (minimum 10 characters)"),
+  is_anonymous: z.boolean().default(false),
   consent_given: z
     .boolean()
     .refine((val) => val === true, "You must give consent to proceed"),
