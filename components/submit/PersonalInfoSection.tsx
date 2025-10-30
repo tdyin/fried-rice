@@ -1,14 +1,28 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 interface PersonalInfoSectionProps {
-  register: UseFormRegister<any>;
-  errors: FieldErrors<any>;
+  register: any;
+  errors: any;
+  isAnonymous?: boolean;
+  onAnonymousChange?: (checked: boolean) => void;
 }
 
-export function PersonalInfoSection({ register, errors }: PersonalInfoSectionProps) {
+export function PersonalInfoSection({
+  register,
+  errors,
+  isAnonymous,
+  onAnonymousChange,
+}: PersonalInfoSectionProps) {
   return (
     <Card>
       <CardHeader>
@@ -45,6 +59,23 @@ export function PersonalInfoSection({ register, errors }: PersonalInfoSectionPro
               {errors.linkedin_url.message?.toString()}
             </p>
           )}
+        </div>
+
+        <div className="flex items-center space-x-2 pt-2">
+          <Checkbox
+            id="is_anonymous"
+            checked={isAnonymous}
+            onCheckedChange={(checked) =>
+              onAnonymousChange?.(checked as boolean)
+            }
+          />
+          <Label
+            htmlFor="is_anonymous"
+            className="text-sm font-normal cursor-pointer"
+          >
+            Post anonymously (Your name will be masked and LinkedIn profile
+            hidden)
+          </Label>
         </div>
       </CardContent>
     </Card>

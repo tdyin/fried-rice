@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -120,6 +121,21 @@ export function EditDialog({
                 }
               />
             </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="edit_is_anonymous"
+              checked={editForm.is_anonymous || false}
+              onCheckedChange={(checked) =>
+                onFormChange({ ...editForm, is_anonymous: checked as boolean })
+              }
+            />
+            <Label
+              htmlFor="edit_is_anonymous"
+              className="text-sm font-normal cursor-pointer"
+            >
+              Posted anonymously
+            </Label>
           </div>
           <div className="space-y-2">
             <Label htmlFor="edit_questions">Interview Questions</Label>

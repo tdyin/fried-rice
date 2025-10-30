@@ -29,10 +29,13 @@ export function ConsentSection({ consentGiven, onConsentChange, errors }: Consen
               htmlFor="consent_given"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
             >
-              I consent to having my name and LinkedIn profile visible to future students *
+              I consent to having my name, LinkedIn profile visible (not visible
+              if checking post anonymously) and interview info to future
+              students*
             </Label>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Your submission will help other students prepare for their interviews. Your contact information will be shared to enable networking.
+              Your submission will help other students prepare for their
+              interviews. Thank you for contributing!
             </p>
           </div>
         </div>

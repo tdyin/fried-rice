@@ -36,7 +36,22 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ data }, { status: 200 });
+    // Mask student names for anonymous posts on the server side
+    const maskedData = data?.map(experience => {
+      if (experience.is_anonymous) {
+        // Replace each letter with an asterisk, keep spaces
+        const maskedName = experience.student_name.replace(/[a-zA-Z]/g, '*');
+        return {
+          ...experience,
+          student_name: maskedName,
+          // Also mask LinkedIn URL for security
+          linkedin_url: ''
+        };
+      }
+      return experience;
+    });
+
+    return NextResponse.json({ data: maskedData }, { status: 200 });
   } catch (error) {
     console.error('Error fetching experiences:', error);
     return NextResponse.json(
