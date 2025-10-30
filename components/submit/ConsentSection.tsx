@@ -31,7 +31,7 @@ export function ConsentSection({ consentGiven, onConsentChange, errors }: Consen
             >
               I consent to having my name, LinkedIn profile visible (not visible
               if checking post anonymously) and interview info to future
-              students*
+              students *
             </Label>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Your submission will help other students prepare for their

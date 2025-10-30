@@ -27,9 +27,6 @@ export function PersonalInfoSection({
     <Card>
       <CardHeader>
         <CardTitle>Personal Information</CardTitle>
-        <CardDescription>
-          Your name and LinkedIn profile will be visible to other students
-        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
@@ -73,8 +70,7 @@ export function PersonalInfoSection({
             htmlFor="is_anonymous"
             className="text-sm font-normal cursor-pointer"
           >
-            Post anonymously (Your name will be masked and LinkedIn profile
-            hidden)
+            Post anonymously (Your name and LinkedIn profile will be hidden)
           </Label>
         </div>
       </CardContent>
