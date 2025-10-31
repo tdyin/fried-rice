@@ -41,6 +41,11 @@ export function ExperienceCard({ experience, keyword }: ExperienceCardProps) {
     );
   };
 
+  // Name is already masked on the server for anonymous posts
+  const displayName = experience.student_name;
+  const showLinkedIn =
+    experience.linkedin_url && experience.linkedin_url !== "";
+
   return (
     <Card className="hover:shadow-lg transition-shadow">
       <CardHeader>
@@ -56,7 +61,7 @@ export function ExperienceCard({ experience, keyword }: ExperienceCardProps) {
               </Badge>
               <Badge variant="outline" className="flex items-center gap-1">
                 <User className="h-3 w-3" />
-                {experience.student_name}
+                {displayName}
               </Badge>
               {experience.created_at && (
                 <span className="flex items-center gap-1">
@@ -66,30 +71,33 @@ export function ExperienceCard({ experience, keyword }: ExperienceCardProps) {
               )}
             </div>
           </div>
-          <Button variant="outline" size="sm" asChild>
-            <a
-              href={experience.linkedin_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2"
-            >
-              LinkedIn <ExternalLink className="h-3 w-3" />
-            </a>
-          </Button>
+          {showLinkedIn && (
+            <Button variant="outline" size="sm" asChild>
+              <a
+                href={experience.linkedin_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2"
+              >
+                LinkedIn <ExternalLink className="h-3 w-3" />
+              </a>
+            </Button>
+          )}
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Timeline */}
-        {experience.interview_dates && experience.interview_dates.length > 0 && (
-          <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 p-3 rounded-lg">
-            {experience.interview_dates.map((dateEntry, idx) => (
-              <span key={idx}>
-                {dateEntry.label}:{" "}
-                {new Date(dateEntry.date).toLocaleDateString()}
-              </span>
-            ))}
-          </div>
-        )}
+        {experience.interview_dates &&
+          experience.interview_dates.length > 0 && (
+            <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 p-3 rounded-lg">
+              {experience.interview_dates.map((dateEntry, idx) => (
+                <span key={idx}>
+                  {dateEntry.label}:{" "}
+                  {new Date(dateEntry.date).toLocaleDateString()}
+                </span>
+              ))}
+            </div>
+          )}
 
         {/* Interview Count */}
         <div className="flex flex-wrap gap-2">
@@ -109,9 +117,7 @@ export function ExperienceCard({ experience, keyword }: ExperienceCardProps) {
             </Badge>
           )}
           {experience.other_interviews > 0 && (
-            <Badge variant="outline">
-              {experience.other_interviews} Other
-            </Badge>
+            <Badge variant="outline">{experience.other_interviews} Other</Badge>
           )}
         </div>
 

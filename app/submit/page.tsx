@@ -40,6 +40,7 @@ const submissionSchema = z.object({
   advice_tips: z
     .string()
     .min(10, "Please provide advice/tips (minimum 10 characters)"),
+  is_anonymous: z.boolean(),
   consent_given: z
     .boolean()
     .refine((val) => val === true, "You must give consent to proceed"),
@@ -70,6 +71,7 @@ export default function SubmitExperience() {
       technical_interviews: 0,
       behavioral_interviews: 0,
       other_interviews: 0,
+      is_anonymous: false,
       consent_given: false,
       interview_dates: [],
     },
@@ -173,7 +175,12 @@ export default function SubmitExperience() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <PersonalInfoSection register={register} errors={errors} />
+          <PersonalInfoSection
+            register={register}
+            errors={errors}
+            isAnonymous={watch("is_anonymous")}
+            onAnonymousChange={(checked) => setValue("is_anonymous", checked)}
+          />
           <CompanyPositionSection register={register} errors={errors} />
           <TimelineSection
             interviewDates={interviewDates}
