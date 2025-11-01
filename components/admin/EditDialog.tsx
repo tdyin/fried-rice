@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -11,8 +12,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Database } from "@/lib/database.types";
+import { useState } from "react";
 
-type InterviewExperience = Database["public"]["Tables"]["interview_experiences"]["Row"];
+type InterviewExperience =
+  Database["public"]["Tables"]["interview_experiences"]["Row"];
 
 interface EditDialogProps {
   open: boolean;
@@ -31,7 +34,43 @@ export function EditDialog({
   onFormChange,
   onSave,
 }: EditDialogProps) {
+  const [newDateLabel, setNewDateLabel] = useState("");
+  const [newDateValue, setNewDateValue] = useState("");
+
   if (!submission) return null;
+
+  const interviewDates = editForm.interview_dates || [];
+
+  const handleAddDate = () => {
+    if (!newDateLabel.trim() || !newDateValue) return;
+
+    const updatedDates = [
+      ...interviewDates,
+      { label: newDateLabel, date: newDateValue },
+    ];
+    onFormChange({ ...editForm, interview_dates: updatedDates });
+    setNewDateLabel("");
+    setNewDateValue("");
+  };
+
+  const handleRemoveDate = (index: number) => {
+    const updatedDates = interviewDates.filter((_, i) => i !== index);
+    onFormChange({ ...editForm, interview_dates: updatedDates });
+  };
+
+  const handleMoveDate = (index: number, direction: "up" | "down") => {
+    const updatedDates = [...interviewDates];
+    const newIndex = direction === "up" ? index - 1 : index + 1;
+
+    if (newIndex < 0 || newIndex >= updatedDates.length) return;
+
+    [updatedDates[index], updatedDates[newIndex]] = [
+      updatedDates[newIndex],
+      updatedDates[index],
+    ];
+
+    onFormChange({ ...editForm, interview_dates: updatedDates });
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -83,6 +122,21 @@ export function EditDialog({
               />
             </div>
           </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="edit_is_anonymous"
+              checked={editForm.is_anonymous || false}
+              onCheckedChange={(checked) =>
+                onFormChange({ ...editForm, is_anonymous: checked as boolean })
+              }
+            />
+            <Label
+              htmlFor="edit_is_anonymous"
+              className="text-sm font-normal cursor-pointer"
+            >
+              Posted anonymously
+            </Label>
+          </div>
           <div className="space-y-2">
             <Label htmlFor="edit_questions">Interview Questions</Label>
             <Textarea
@@ -107,6 +161,146 @@ export function EditDialog({
               }
               className="min-h-[150px]"
             />
+          </div>
+          <div className="space-y-2">
+            <Label>Timeline</Label>
+            <div className="space-y-3">
+              {interviewDates.map((dateEntry, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                >
+                  <div className="flex-1">
+                    <span className="font-medium">{dateEntry.label}:</span>{" "}
+                    <span className="text-gray-600 dark:text-gray-400">
+                      {new Date(dateEntry.date).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div className="flex gap-1">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleMoveDate(index, "up")}
+                      disabled={index === 0}
+                    >
+                      ↑
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleMoveDate(index, "down")}
+                      disabled={index === interviewDates.length - 1}
+                    >
+                      ↓
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleRemoveDate(index)}
+                    >
+                      ✕
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <div className="space-y-2">
+                <Label htmlFor="new_date_label">Date Label</Label>
+                <Input
+                  id="new_date_label"
+                  value={newDateLabel}
+                  onChange={(e) => setNewDateLabel(e.target.value)}
+                  placeholder="e.g., Applied, Phone Screen"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new_date_value">Date</Label>
+                <Input
+                  id="new_date_value"
+                  type="date"
+                  value={newDateValue}
+                  onChange={(e) => setNewDateValue(e.target.value)}
+                />
+              </div>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleAddDate}
+              disabled={!newDateLabel.trim() || !newDateValue}
+              className="w-full"
+            >
+              + Add Date
+            </Button>
+          </div>
+          <div className="space-y-2">
+            <Label>Interview Details</Label>
+            <div className="grid grid-cols-4 gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="edit_phone_screens">Phone Screens</Label>
+                <Input
+                  id="edit_phone_screens"
+                  type="number"
+                  min="0"
+                  value={editForm.phone_screens ?? 0}
+                  onChange={(e) =>
+                    onFormChange({
+                      ...editForm,
+                      phone_screens: parseInt(e.target.value) || 0,
+                    })
+                  }
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit_technical">Technical</Label>
+                <Input
+                  id="edit_technical"
+                  type="number"
+                  min="0"
+                  value={editForm.technical_interviews ?? 0}
+                  onChange={(e) =>
+                    onFormChange({
+                      ...editForm,
+                      technical_interviews: parseInt(e.target.value) || 0,
+                    })
+                  }
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit_behavioral">Behavioral</Label>
+                <Input
+                  id="edit_behavioral"
+                  type="number"
+                  min="0"
+                  value={editForm.behavioral_interviews ?? 0}
+                  onChange={(e) =>
+                    onFormChange({
+                      ...editForm,
+                      behavioral_interviews: parseInt(e.target.value) || 0,
+                    })
+                  }
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit_other">Other</Label>
+                <Input
+                  id="edit_other"
+                  type="number"
+                  min="0"
+                  value={editForm.other_interviews ?? 0}
+                  onChange={(e) =>
+                    onFormChange({
+                      ...editForm,
+                      other_interviews: parseInt(e.target.value) || 0,
+                    })
+                  }
+                />
+              </div>
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="edit_status">Status</Label>
